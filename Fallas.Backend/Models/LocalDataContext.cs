@@ -1,9 +1,12 @@
 ﻿using Fallas.Domain;
+using System.Data.Entity;
 
 namespace Fallas.Backend.Models
 {
     public class LocalDataContext : DataContext
     {
-        public System.Data.Entity.DbSet<Fallas.Domain.Component> Components { get; set; }
+        public DbSet<Component> Components { get; set; }
+
+        public DbSet<Act> Acts { get; set; }
     }
 }

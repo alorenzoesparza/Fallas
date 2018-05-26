@@ -1,26 +1,31 @@
-﻿using Falla.Backend.Helpers;
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Net;
+using System.Web;
+using System.Web.Mvc;
 using Fallas.Backend.Models;
 using Fallas.Domain;
-using System.Data.Entity;
+using Falla.Backend.Helpers;
 using System.IO;
-using System.Net;
-using System.Threading.Tasks;
-using System.Web.Mvc;
 
 namespace Fallas.Backend.Controllers
 {
     [Authorize(Roles = "Admin, Fallero")]
-    public class ComponentsController : Controller
+    public class ActsController : Controller
     {
         private LocalDataContext db = new LocalDataContext();
 
-        // GET: Components
+        // GET: Acts
         public async Task<ActionResult> Index()
         {
-            return View(await db.Components.ToListAsync());
+            return View(await db.Acts.ToListAsync());
         }
 
-        // GET: Components/Details/5
+        // GET: Acts/Details/5
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
@@ -28,44 +33,42 @@ namespace Fallas.Backend.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var component = await db.Components.FindAsync(id);
+            var act = await db.Acts.FindAsync(id);
 
-            if (component == null)
+            if (act == null)
             {
                 return HttpNotFound();
             }
 
-            return View(component);
+            return View(act);
         }
 
-        // GET: Components/Create
+        // GET: Acts/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Components/Create
+        // POST: Acts/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(ComponentView view)
+        public async Task<ActionResult> Create(Act act)
         {
             if (ModelState.IsValid)
             {
-                var component = this.ToComponent(view);
-                db.Components.Add(component);
+                db.Acts.Add(act);
                 await db.SaveChangesAsync();
-                UsersHelper.CreateUserASP(view.Email, "Fallero", view.Password);
 
-                if (view.FotoFile != null)
+                if (act.ImagenFile != null)
                 {
-                    var folder = "~/Content/Componentes";
-                    var file = string.Format("Componente{0}", component.ComponentId);
-                    var file500 = string.Format("Componente{0}_{1}", component.ComponentId, "500");
+                    var folder = "~/Content/Eventos";
+                    var file = string.Format("Evento{0}", act.IdAct);
+                    var file500 = string.Format("Evento{0}_{1}", act.IdAct, "500");
 
-                    var respuesta = FilesHelper.UploadPhotoBackEnd(view.FotoFile, folder, file, 200, 200);
-                    var respuesta500 = FilesHelper.UploadPhotoBackEnd(view.FotoFile, folder, file500, 500, 500);
+                    var respuesta = FilesHelper.UploadPhotoBackEnd(act.ImagenFile, folder, file, 200, 200);
+                    var respuesta500 = FilesHelper.UploadPhotoBackEnd(act.ImagenFile, folder, file500, 500, 500);
 
                     var extension = Path.GetExtension(respuesta);
                     if (respuesta != null)
@@ -73,34 +76,22 @@ namespace Fallas.Backend.Controllers
                         var pic = string.Format("{0}/{1}{2}", folder, file, extension);
                         var pic500 = string.Format("{0}/{1}{2}", folder, file500, extension);
 
-                        component.Foto = pic;
-                        component.Foto500 = pic500;
+                        act.Imagen = pic;
+                        act.Imagen500 = pic500;
 
-                        db.Entry(component).State = EntityState.Modified;
+                        db.Entry(act).State = EntityState.Modified;
                         db.SaveChanges();
                     }
                 }
 
                 return RedirectToAction("Index");
+
             }
 
-            return View(view);
-        }
-        private Component ToComponent(ComponentView view)
-        {
-            return new Component
-            {
-                //ComponentId = view.ComponentId,
-                Email = view.Email,
-                FirstName = view.FirstName,
-                Foto = view.Foto,
-                Foto500 = view.Foto500,
-                LastName = view.LastName,
-                Telephone = view.Telephone,
-            };
+            return View(act);
         }
 
-        // GET: Components/Edit/5
+        // GET: Acts/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
@@ -108,33 +99,33 @@ namespace Fallas.Backend.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var component = await db.Components.FindAsync(id);
+            var act = await db.Acts.FindAsync(id);
 
-            if (component == null)
+            if (act == null)
             {
                 return HttpNotFound();
             }
 
-            return View(component);
+            return View(act);
         }
 
-        // POST: Components/Edit/5
+        // POST: Acts/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(Component component)
+        public async Task<ActionResult> Edit([Bind(Include = "IdAct,Titular,Descripcion,FechaActo,HoraActo,Precio,PrecioInfantiles,ActoOficial,Imagen,Imagen500,PagInicio,YaEfectuado")] Act act)
         {
             if (ModelState.IsValid)
             {
-                if (component.FotoFile != null)
+                if (act.ImagenFile != null)
                 {
-                    var folder = "~/Content/Componentes";
-                    var file = string.Format("Componente{0}", component.ComponentId);
-                    var file500 = string.Format("Componente{0}_{1}", component.ComponentId, "500");
+                    var folder = "~/Content/Eventos";
+                    var file = string.Format("Evento{0}", act.IdAct);
+                    var file500 = string.Format("Evento{0}_{1}", act.IdAct, "500");
 
-                    var respuesta = FilesHelper.UploadPhotoBackEnd(component.FotoFile, folder, file, 200, 200);
-                    var respuesta500 = FilesHelper.UploadPhotoBackEnd(component.FotoFile, folder, file500, 500, 500);
+                    var respuesta = FilesHelper.UploadPhotoBackEnd(act.ImagenFile, folder, file, 200, 200);
+                    var respuesta500 = FilesHelper.UploadPhotoBackEnd(act.ImagenFile, folder, file500, 500, 500);
 
                     var extension = Path.GetExtension(respuesta);
                     if (respuesta != null)
@@ -142,20 +133,19 @@ namespace Fallas.Backend.Controllers
                         var pic = string.Format("{0}/{1}{2}", folder, file, extension);
                         var pic500 = string.Format("{0}/{1}{2}", folder, file500, extension);
 
-                        component.Foto = pic;
-                        component.Foto500 = pic500;
+                        act.Imagen = pic;
+                        act.Imagen500 = pic500;
                     }
                 }
 
-                db.Entry(component).State = EntityState.Modified;
+                db.Entry(act).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-
-            return View(component);
+            return View(act);
         }
 
-        // GET: Components/Delete/5
+        // GET: Acts/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
@@ -163,23 +153,23 @@ namespace Fallas.Backend.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var component = await db.Components.FindAsync(id);
+            var act = await db.Acts.FindAsync(id);
 
-            if (component == null)
+            if (act == null)
             {
                 return HttpNotFound();
             }
 
-            return View(component);
+            return View(act);
         }
 
-        // POST: Components/Delete/5
+        // POST: Acts/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            var component = await db.Components.FindAsync(id);
-            db.Components.Remove(component);
+            var act = await db.Acts.FindAsync(id);
+            db.Acts.Remove(act);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }

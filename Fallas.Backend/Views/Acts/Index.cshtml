@@ -1,0 +1,63 @@
+﻿@model IEnumerable<Fallas.Domain.Act>
+
+@{
+    ViewBag.Title = "Eventos";
+}
+
+<h2>Eventos</h2>
+
+<p>
+    @Html.ActionLink("Nuevo", "Create", new { }, new { @class = "btn btn-primary" })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Titular)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FechaActo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HoraActo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Precio)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PrecioInfantiles)
+        </th>
+        <th>
+            Foto
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Titular)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FechaActo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HoraActo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Precio)
+        </td>
+        <td>
+            @if (!string.IsNullOrEmpty(item.Imagen))
+            {
+                <img src="@Url.Content(item.Imagen)" alt="Image" style="width:100px;height:150px;max-width: 100%; height: auto;" />
+            }
+        <td>
+        <td>
+            @Html.ActionLink("Editar", "Edit", new { id = item.IdAct }, new { @class = "btn btn-info" }) |
+            @Html.ActionLink("Detalle", "Details", new { id = item.IdAct }, new { @class = "btn btn-warning" }) |
+            @Html.ActionLink("Borrar", "Delete", new { id = item.IdAct }, new { @class = "btn btn-danger" }) 
+        </td>
+    </tr>
+}
+
+</table>

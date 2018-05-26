@@ -1,0 +1,107 @@
+﻿@model Fallas.Domain.Act
+
+@{
+    ViewBag.Title = "Borrar";
+}
+
+<h2>Borrar Evento</h2>
+
+<h3>¿ Seguro que quiere borrar este Evento ?</h3>
+<div class="row">
+    <div class="col-md-6">
+        <div>
+
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Titular)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Titular)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Descripcion)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Descripcion)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.FechaActo)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.FechaActo)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.HoraActo)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.HoraActo)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Precio)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Precio)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.PrecioInfantiles)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.PrecioInfantiles)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.ActoOficial)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ActoOficial)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.PagInicio)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.PagInicio)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.YaEfectuado)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.YaEfectuado)
+                </dd>
+
+            </dl>
+        </div>
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-actions no-color col-md-offset-1 col-md-11">
+                <br />
+                @Html.ActionLink("Volver", "Index", new { }, new { @class = "btn btn-primary" })
+                <input type="submit" value="Borrar" class="btn btn-danger" />
+            </div>
+        }
+    </div>
+
+    <div class="col-md-5">
+        @if (!string.IsNullOrEmpty(Model.Imagen))
+        {
+            <img src="@Url.Content(Model.Imagen500)" alt="image" />
+        }
+    </div>
+</div>
