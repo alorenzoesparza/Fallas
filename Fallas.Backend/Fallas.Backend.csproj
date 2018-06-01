@@ -221,6 +221,39 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Componentes\Componente1.jpg" />
+    <Content Include="Content\Componentes\Componente1.png" />
+    <Content Include="Content\Componentes\Componente1_500.jpg" />
+    <Content Include="Content\Componentes\Componente1_500.png" />
+    <Content Include="Content\Eventos\Evento1.jpg" />
+    <Content Include="Content\Eventos\Evento1_500.jpg" />
+    <Content Include="Content\Eventos\Evento2.jpg" />
+    <Content Include="Content\Eventos\Evento2_500.jpg" />
+    <Content Include="Content\Eventos\Evento3.jpg" />
+    <Content Include="Content\Eventos\Evento3_500.jpg" />
+    <Content Include="Content\Eventos\Evento4.jpg" />
+    <Content Include="Content\Eventos\Evento4_500.jpg" />
+    <Content Include="Content\Eventos\Evento5.jpg" />
+    <Content Include="Content\Eventos\Evento5_500.jpg" />
+    <Content Include="Content\images\ui-bg_glass_100_f5f0e5_1x400.png" />
+    <Content Include="Content\images\ui-bg_glass_25_cb842e_1x400.png" />
+    <Content Include="Content\images\ui-bg_glass_70_ede4d4_1x400.png" />
+    <Content Include="Content\images\ui-bg_highlight-hard_100_f4f0ec_1x100.png" />
+    <Content Include="Content\images\ui-bg_highlight-hard_65_fee4bd_1x100.png" />
+    <Content Include="Content\images\ui-bg_highlight-hard_75_f5f5b5_1x100.png" />
+    <Content Include="Content\images\ui-bg_inset-soft_100_f4f0ec_1x100.png" />
+    <Content Include="Content\images\ui-icons_c47a23_256x240.png" />
+    <Content Include="Content\images\ui-icons_cb672b_256x240.png" />
+    <Content Include="Content\images\ui-icons_f08000_256x240.png" />
+    <Content Include="Content\images\ui-icons_f35f07_256x240.png" />
+    <Content Include="Content\images\ui-icons_ff7519_256x240.png" />
+    <Content Include="Content\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\jquery-ui.css" />
+    <Content Include="Content\jquery-ui.min.css" />
+    <Content Include="Content\jquery-ui.structure.css" />
+    <Content Include="Content\jquery-ui.structure.min.css" />
+    <Content Include="Content\jquery-ui.theme.css" />
+    <Content Include="Content\jquery-ui.theme.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -230,18 +263,23 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-ui.js" />
+    <Content Include="Scripts\jquery-ui.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -285,6 +323,7 @@
     <Content Include="Views\Acts\Details.cshtml" />
     <Content Include="Views\Acts\Edit.cshtml" />
     <Content Include="Views\Acts\Index.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Date.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

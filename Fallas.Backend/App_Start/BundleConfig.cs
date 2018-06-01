@@ -22,9 +22,18 @@ namespace Fallas.Backend
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/jqueryUI").Include(
+                      "~/Scripts/jquery-ui.min.js"
+                      ));
+
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                    "~/Content/bootstrap.css",
+                    "~/Content/Site.css"));
+
+            bundles.Add(new StyleBundle("~/Content/jqueryUIcss").Include(
+                    "~/Content/jquery-ui.min.css",
+                    "~/Content/jquery-ui.structure.min.css",
+                    "~/Content/jquery-ui.theme.min.css"));
         }
     }
 }

@@ -47,6 +47,9 @@
             @Html.DisplayFor(modelItem => item.Precio)
         </td>
         <td>
+            @Html.DisplayFor(modelItem => item.PrecioInfantiles)
+        </td>
+        <td>
             @if (!string.IsNullOrEmpty(item.Imagen))
             {
                 <img src="@Url.Content(item.Imagen)" alt="Image" style="width:100px;height:150px;max-width: 100%; height: auto;" />
@@ -55,7 +58,7 @@
         <td>
             @Html.ActionLink("Editar", "Edit", new { id = item.IdAct }, new { @class = "btn btn-info" }) |
             @Html.ActionLink("Detalle", "Details", new { id = item.IdAct }, new { @class = "btn btn-warning" }) |
-            @Html.ActionLink("Borrar", "Delete", new { id = item.IdAct }, new { @class = "btn btn-danger" }) 
+            @Html.ActionLink("Borrar", "Delete", new { id = item.IdAct }, new { @class = "btn btn-danger" })
         </td>
     </tr>
 }

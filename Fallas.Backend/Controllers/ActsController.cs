@@ -114,7 +114,8 @@ namespace Fallas.Backend.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "IdAct,Titular,Descripcion,FechaActo,HoraActo,Precio,PrecioInfantiles,ActoOficial,Imagen,Imagen500,PagInicio,YaEfectuado")] Act act)
+        //public async Task<ActionResult> Edit([Bind(Include = "IdAct,Titular,Descripcion,FechaActo,HoraActo,Precio,PrecioInfantiles,ActoOficial,Imagen,Imagen500,PagInicio,YaEfectuado")] Act act)
+        public async Task<ActionResult> Edit(Act act)
         {
             if (ModelState.IsValid)
             {

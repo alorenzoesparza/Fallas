@@ -26,10 +26,10 @@ namespace Fallas.Domain
         public string Descripcion { get; set; }
 
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         [Display(Name = "Fecha del acto")]
-        public DateTime FechaActo { get; set; }
+        public DateTime? FechaActo { get; set; }
 
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
         [DataType(DataType.Time)]
@@ -38,7 +38,7 @@ namespace Fallas.Domain
         public string HoraActo { get; set; }
 
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
-        [DisplayFormat(DataFormatString = "{0:##0.#0} €", ApplyFormatInEditMode = false)]
+        [DisplayFormat(DataFormatString = "{0:C2} €", ApplyFormatInEditMode = false)]
         [MaxLength(10, ErrorMessage = "El campo{0} debe tener como máximo {1} caracteres")]
         [RegularExpression(@"\d+(\.\d{1,2})?", ErrorMessage = "El {0} es invalido.")]
         public string Precio { get; set; }
