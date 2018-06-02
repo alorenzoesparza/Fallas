@@ -1,11 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web;
 
 namespace Fallas.Domain
@@ -38,17 +34,17 @@ namespace Fallas.Domain
         public string HoraActo { get; set; }
 
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
-        [DisplayFormat(DataFormatString = "{0:C2} €", ApplyFormatInEditMode = false)]
-        [MaxLength(10, ErrorMessage = "El campo{0} debe tener como máximo {1} caracteres")]
-        [RegularExpression(@"\d+(\.\d{1,2})?", ErrorMessage = "El {0} es invalido.")]
-        public string Precio { get; set; }
+        [DisplayFormat(DataFormatString = "{0:C2}", ApplyFormatInEditMode = false)]
+        //[MaxLength(10, ErrorMessage = "El campo{0} debe tener como máximo {1} caracteres")]
+        //[RegularExpression(@"\d+(\.\d{1,2})?", ErrorMessage = "El {0} es invalido.")]
+        public decimal Precio { get; set; }
 
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
-        [DisplayFormat(DataFormatString = "{0:##0.#0} €", ApplyFormatInEditMode = false)]
+        [DisplayFormat(DataFormatString = "{0:C2}", ApplyFormatInEditMode = false)]
         [Display(Name = "Precio Infantil")]
-        [RegularExpression(@"\d+(\.\d{1,2})?", ErrorMessage = "El {0} es invalido.")]
-        [MaxLength(10, ErrorMessage = "El campo{0} debe tener como máximo {1} caracteres")]
-        public string PrecioInfantiles { get; set; }
+        //[RegularExpression(@"\d+(\.\d{1,2})?", ErrorMessage = "El {0} es invalido.")]
+        //[MaxLength(10, ErrorMessage = "El campo{0} debe tener como máximo {1} caracteres")]
+        public decimal PrecioInfantiles { get; set; }
 
         [Display(Name = "Acto oficial")]
         public bool ActoOficial { get; set; }

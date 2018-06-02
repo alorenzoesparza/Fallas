@@ -139,6 +139,7 @@ namespace Fallas.Backend.Controllers
                     }
                 }
 
+                //act.Precio = string.Format("{0:##0.00}", act.Precio);
                 db.Entry(act).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");

@@ -1,22 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using Falla.API.Models;
+using Fallas.Domain;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
-using Fallas.Domain;
 
 namespace Falla.API.Controllers
 {
     [Authorize(Roles = "Admin, Fallero")]
     public class ActsController : ApiController
     {
-        private DataContext db = new DataContext();
+        private LocalDataContext db = new LocalDataContext();
 
         // GET: api/Acts
         public IQueryable<Act> GetActs()
