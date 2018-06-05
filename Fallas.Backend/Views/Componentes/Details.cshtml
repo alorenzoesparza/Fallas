@@ -1,0 +1,66 @@
+﻿@model Fallas.Domain.Componente
+
+@{
+    ViewBag.Title = "Detalle";
+}
+
+<h2>Detalle Componente</h2>
+
+<div class="row">
+    <div class="col-md-5">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Nombre)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Apellidos)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Apellidos)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Email)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Email)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Telefono)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Telefono)
+            </dd>
+
+        </dl>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    @Html.ActionLink("Volver", "Index", new { }, new { @class = "btn btn-primary" }) |
+                    @Html.ActionLink("Editar", "Edit", new { id = Model.ComponenteId }, new { @class = "btn btn-info" })
+                </div>
+            </div>
+        }
+
+    </div>
+
+    <div class="col-md-5">
+        @if (!string.IsNullOrEmpty(Model.Foto))
+        {
+            <img src="@Url.Content(Model.Foto500)" alt="image" />
+        }
+    </div>
+</div>
+

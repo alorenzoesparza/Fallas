@@ -4,20 +4,21 @@ using System.Web;
 
 namespace Fallas.Domain
 {
-    public class Component
+    [Table(name:"Componentes")]
+    public class Componente
     {
         [Key]
-        public int ComponentId { get; set; }
+        public int ComponenteId { get; set; }
 
         [Display(Name = "Nombre")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         [MaxLength(50, ErrorMessage = "El campo {0} debe contener como máximo {1} caracteres.")]
-        public string FirstName { get; set; }
+        public string Nombre { get; set; }
 
         [Display(Name = "Apellidos")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         [MaxLength(100, ErrorMessage = "El campo {0} debe contener como máximo {1} caracteres.")]
-        public string LastName { get; set; }
+        public string Apellidos { get; set; }
 
         [Display(Name = "E-mail")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
@@ -29,7 +30,7 @@ namespace Fallas.Domain
         [Display(Name = "Teléfono")]
         [MaxLength(20, ErrorMessage = "El campo {0} debe contener como máximo {1} caracteres.")]
         [DataType(DataType.PhoneNumber)]
-        public string Telephone { get; set; }
+        public string Telefono { get; set; }
 
         [Display(Name = "Foto")]
         [DataType(DataType.ImageUrl)]
@@ -61,11 +62,11 @@ namespace Fallas.Domain
 
         [NotMapped]
         [Display(Name = "Nombre")]
-        public string FullName
+        public string NombreCompleto
         {
             get
             {
-                return string.Format("{0}, {1}", LastName, FirstName);
+                return string.Format("{0}, {1}", Apellidos, Nombre);
             }
         }
     }

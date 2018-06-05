@@ -196,8 +196,8 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\ActsController.cs" />
-    <Compile Include="Controllers\ComponentsController.cs" />
+    <Compile Include="Controllers\ComponentesController.cs" />
+    <Compile Include="Controllers\EventosController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
@@ -209,7 +209,7 @@
     <Compile Include="Helpers\UsersHelper.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\ComponentView.cs" />
+    <Compile Include="Models\ComponenteView.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\LocalDataContext.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -273,6 +273,16 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Views\Componentes\Create.cshtml" />
+    <Content Include="Views\Componentes\Delete.cshtml" />
+    <Content Include="Views\Componentes\Details.cshtml" />
+    <Content Include="Views\Componentes\Edit.cshtml" />
+    <Content Include="Views\Componentes\Index.cshtml" />
+    <Content Include="Views\Eventos\Create.cshtml" />
+    <Content Include="Views\Eventos\Delete.cshtml" />
+    <Content Include="Views\Eventos\Details.cshtml" />
+    <Content Include="Views\Eventos\Edit.cshtml" />
+    <Content Include="Views\Eventos\Index.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -309,16 +319,6 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Components\Create.cshtml" />
-    <Content Include="Views\Components\Delete.cshtml" />
-    <Content Include="Views\Components\Details.cshtml" />
-    <Content Include="Views\Components\Edit.cshtml" />
-    <Content Include="Views\Components\Index.cshtml" />
-    <Content Include="Views\Acts\Create.cshtml" />
-    <Content Include="Views\Acts\Delete.cshtml" />
-    <Content Include="Views\Acts\Details.cshtml" />
-    <Content Include="Views\Acts\Edit.cshtml" />
-    <Content Include="Views\Acts\Index.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Date.cshtml" />
   </ItemGroup>
   <ItemGroup>

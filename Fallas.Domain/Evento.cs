@@ -1,15 +1,19 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Web;
 
 namespace Fallas.Domain
 {
-    public class Act
+    [Table(name:"Eventos")]
+    public class Evento
     {
         [Key]
-        public int IdAct { get; set; }
+        public int IdEvento { get; set; }
 
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
         [MaxLength(128, ErrorMessage = "El campo{0} debe tener como máximo {1} caracteres")]
@@ -24,14 +28,14 @@ namespace Fallas.Domain
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
-        [Display(Name = "Fecha del acto")]
-        public DateTime? FechaActo { get; set; }
+        [Display(Name = "Fecha del evento")]
+        public DateTime? FechaEvento { get; set; }
 
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
         [DataType(DataType.Time)]
         [DisplayFormat(DataFormatString = "{0: hh:mm}", ApplyFormatInEditMode = true)]
-        [Display(Name = "Hora del acto")]
-        public string HoraActo { get; set; }
+        [Display(Name = "Hora del evento")]
+        public string HoraEvento { get; set; }
 
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
         [DisplayFormat(DataFormatString = "{0:C2}", ApplyFormatInEditMode = false)]
@@ -46,8 +50,8 @@ namespace Fallas.Domain
         //[MaxLength(10, ErrorMessage = "El campo{0} debe tener como máximo {1} caracteres")]
         public decimal PrecioInfantiles { get; set; }
 
-        [Display(Name = "Acto oficial")]
-        public bool ActoOficial { get; set; }
+        [Display(Name = "Evento oficial")]
+        public bool EventoOficial { get; set; }
 
         [DataType(DataType.ImageUrl)]
         public string Imagen { get; set; }

@@ -1,12 +1,18 @@
 ﻿using Fallas.Domain;
 using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration.Conventions;
 
 namespace Fallas.Backend.Models
 {
     public class LocalDataContext : DataContext
     {
-        public DbSet<Component> Components { get; set; }
+        public DbSet<Evento> Eventos { get; set; }
 
-        public DbSet<Act> Acts { get; set; }
+        public DbSet<Componente> Componentes { get; set; }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+        }
     }
 }

@@ -1,8 +1,11 @@
 namespace Fallas.Backend.Migrations
 {
+    using System;
+    using System.Data.Entity;
     using System.Data.Entity.Migrations;
+    using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<Models.LocalDataContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<Fallas.Backend.Models.LocalDataContext>
     {
         public Configuration()
         {
@@ -11,7 +14,7 @@ namespace Fallas.Backend.Migrations
             ContextKey = "Fallas.Backend.Models.LocalDataContext";
         }
 
-        protected override void Seed(Models.LocalDataContext context)
+        protected override void Seed(Fallas.Backend.Models.LocalDataContext context)
         {
             //  This method will be called after migrating to the latest version.
 

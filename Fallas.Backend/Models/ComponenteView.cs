@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Fallas.Backend.Models
 {
     [NotMapped]
-    public class ComponentView : Component
+    public class ComponenteView : Componente
     {
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         [RegularExpression(@"(^(?=.*\d)(?=.*[\u0021-\u002b\u003c-\u0040])(?=.*[A-Z])(?=.*[a-z])\S{6,20}$)",

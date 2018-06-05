@@ -1,0 +1,106 @@
+﻿@model Fallas.Domain.Evento
+
+@{
+    ViewBag.Title = "Detalle";
+}
+
+<h2>Detalle Evento</h2>
+
+<div class="row">
+    <div class="col-md-5">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Titular)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Titular)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Descripcion)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Descripcion)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.FechaEvento)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.FechaEvento)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.HoraEvento)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.HoraEvento)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Precio)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Precio)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.PrecioInfantiles)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.PrecioInfantiles)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.EventoOficial)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.EventoOficial)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.PagInicio)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.PagInicio)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.YaEfectuado)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.YaEfectuado)
+            </dd>
+        </dl>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    @Html.ActionLink("Volver", "Index", new { }, new { @class = "btn btn-primary" }) |
+                    @Html.ActionLink("Editar", "Edit", new { id = Model.IdEvento }, new { @class = "btn btn-info" })
+                </div>
+            </div>
+        }
+
+    </div>
+
+    <div class="col-md-5">
+        @if (!string.IsNullOrEmpty(Model.Imagen))
+        {
+            <img src="@Url.Content(Model.Imagen500)" alt="image" />
+        }
+    </div>
+</div>
+

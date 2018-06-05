@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Fallas.Domain.Act>
+﻿@model IEnumerable<Fallas.Domain.Evento>
 
 @{
     ViewBag.Title = "Eventos";
@@ -15,10 +15,10 @@
             @Html.DisplayNameFor(model => model.Titular)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FechaActo)
+            @Html.DisplayNameFor(model => model.FechaEvento)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.HoraActo)
+            @Html.DisplayNameFor(model => model.FechaEvento)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Precio)
@@ -38,10 +38,10 @@
             @Html.DisplayFor(modelItem => item.Titular)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.FechaActo)
+            @Html.DisplayFor(modelItem => item.FechaEvento)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.HoraActo)
+            @Html.DisplayFor(modelItem => item.HoraEvento)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Precio)
@@ -56,9 +56,9 @@
             }
         <td>
         <td>
-            @Html.ActionLink("Editar", "Edit", new { id = item.IdAct }, new { @class = "btn btn-info" }) |
-            @Html.ActionLink("Detalle", "Details", new { id = item.IdAct }, new { @class = "btn btn-warning" }) |
-            @Html.ActionLink("Borrar", "Delete", new { id = item.IdAct }, new { @class = "btn btn-danger" })
+            @Html.ActionLink("Editar", "Edit", new { id = item.IdEvento }, new { @class = "btn btn-info" }) |
+            @Html.ActionLink("Detalle", "Details", new { id = item.IdEvento }, new { @class = "btn btn-warning" }) |
+            @Html.ActionLink("Borrar", "Delete", new { id = item.IdEvento }, new { @class = "btn btn-danger" })
         </td>
     </tr>
 }

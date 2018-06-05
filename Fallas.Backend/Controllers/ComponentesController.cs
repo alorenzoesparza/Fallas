@@ -10,17 +10,35 @@ using System.Web.Mvc;
 namespace Fallas.Backend.Controllers
 {
     [Authorize(Roles = "Admin, Fallero")]
-    public class ComponentsController : Controller
+    public class ComponentesController : Controller
     {
         private LocalDataContext db = new LocalDataContext();
 
-        // GET: Components
+        // GET: Componentes
         public async Task<ActionResult> Index()
         {
-            return View(await db.Components.ToListAsync());
+            //var components = await db.Components.ToListAsync();
+
+            //foreach (var component in components)
+            //{
+            //    var componente = new Componente
+            //    {
+            //        Apellidos = component.LastName,
+            //        ComponenteId = component.ComponentId,
+            //        Email = component.Email,
+            //        Foto = component.Foto,
+            //        Foto500 = component.Foto500,
+            //        Nombre = component.FirstName,
+            //        Telefono = component.Telephone,
+            //    };
+            //    db.Componentes.Add(componente);
+            //    await db.SaveChangesAsync();
+            //}
+
+            return View(await db.Componentes.ToListAsync());
         }
 
-        // GET: Components/Details/5
+        // GET: Componentes/Details/5
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
@@ -28,41 +46,41 @@ namespace Fallas.Backend.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var component = await db.Components.FindAsync(id);
+            var componente = await db.Componentes.FindAsync(id);
 
-            if (component == null)
+            if (componente == null)
             {
                 return HttpNotFound();
             }
 
-            return View(component);
+            return View(componente);
         }
 
-        // GET: Components/Create
+        // GET: Componentes/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Components/Create
+        // POST: Componentes/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(ComponentView view)
+        public async Task<ActionResult> Create(ComponenteView view)
         {
             if (ModelState.IsValid)
             {
-                var component = this.ToComponent(view);
-                db.Components.Add(component);
+                var componente = this.ToComponente(view);
+                db.Componentes.Add(componente);
                 await db.SaveChangesAsync();
                 UsersHelper.CreateUserASP(view.Email, "Fallero", view.Password);
 
                 if (view.FotoFile != null)
                 {
                     var folder = "~/Content/Componentes";
-                    var file = string.Format("Componente{0}", component.ComponentId);
-                    var file500 = string.Format("Componente{0}_{1}", component.ComponentId, "500");
+                    var file = string.Format("Componente{0}", componente.ComponenteId);
+                    var file500 = string.Format("Componente{0}_{1}", componente.ComponenteId, "500");
 
                     var respuesta = FilesHelper.UploadPhotoBackEnd(view.FotoFile, folder, file, 200, 200);
                     var respuesta500 = FilesHelper.UploadPhotoBackEnd(view.FotoFile, folder, file500, 500, 500);
@@ -73,10 +91,10 @@ namespace Fallas.Backend.Controllers
                         var pic = string.Format("{0}/{1}{2}", folder, file, extension);
                         var pic500 = string.Format("{0}/{1}{2}", folder, file500, extension);
 
-                        component.Foto = pic;
-                        component.Foto500 = pic500;
+                        componente.Foto = pic;
+                        componente.Foto500 = pic500;
 
-                        db.Entry(component).State = EntityState.Modified;
+                        db.Entry(componente).State = EntityState.Modified;
                         db.SaveChanges();
                     }
                 }
@@ -86,21 +104,22 @@ namespace Fallas.Backend.Controllers
 
             return View(view);
         }
-        private Component ToComponent(ComponentView view)
+        private Componente ToComponente(ComponenteView view)
         {
-            return new Component
+            return new Componente
             {
                 //ComponentId = view.ComponentId,
+                Apellidos = view.Apellidos,
+                ComponenteId = view.ComponenteId,
                 Email = view.Email,
-                FirstName = view.FirstName,
                 Foto = view.Foto,
                 Foto500 = view.Foto500,
-                LastName = view.LastName,
-                Telephone = view.Telephone,
+                Nombre = view.Nombre,
+                Telefono = view.Telefono,
             };
         }
 
-        // GET: Components/Edit/5
+        // GET: Componentes/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
@@ -108,33 +127,33 @@ namespace Fallas.Backend.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var component = await db.Components.FindAsync(id);
+            var componente = await db.Componentes.FindAsync(id);
 
-            if (component == null)
+            if (componente == null)
             {
                 return HttpNotFound();
             }
 
-            return View(component);
+            return View(componente);
         }
 
-        // POST: Components/Edit/5
+        // POST: Componentes/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(Component component)
+        public async Task<ActionResult> Edit(Componente componente)
         {
             if (ModelState.IsValid)
             {
-                if (component.FotoFile != null)
+                if (componente.FotoFile != null)
                 {
                     var folder = "~/Content/Componentes";
-                    var file = string.Format("Componente{0}", component.ComponentId);
-                    var file500 = string.Format("Componente{0}_{1}", component.ComponentId, "500");
+                    var file = string.Format("Componente{0}", componente.ComponenteId);
+                    var file500 = string.Format("Componente{0}_{1}", componente.ComponenteId, "500");
 
-                    var respuesta = FilesHelper.UploadPhotoBackEnd(component.FotoFile, folder, file, 200, 200);
-                    var respuesta500 = FilesHelper.UploadPhotoBackEnd(component.FotoFile, folder, file500, 500, 500);
+                    var respuesta = FilesHelper.UploadPhotoBackEnd(componente.FotoFile, folder, file, 200, 200);
+                    var respuesta500 = FilesHelper.UploadPhotoBackEnd(componente.FotoFile, folder, file500, 500, 500);
 
                     var extension = Path.GetExtension(respuesta);
                     if (respuesta != null)
@@ -142,20 +161,20 @@ namespace Fallas.Backend.Controllers
                         var pic = string.Format("{0}/{1}{2}", folder, file, extension);
                         var pic500 = string.Format("{0}/{1}{2}", folder, file500, extension);
 
-                        component.Foto = pic;
-                        component.Foto500 = pic500;
+                        componente.Foto = pic;
+                        componente.Foto500 = pic500;
                     }
                 }
 
-                db.Entry(component).State = EntityState.Modified;
+                db.Entry(componente).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
-            return View(component);
+            return View(componente);
         }
 
-        // GET: Components/Delete/5
+        // GET: Componentes/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
@@ -163,23 +182,23 @@ namespace Fallas.Backend.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var component = await db.Components.FindAsync(id);
+            var componente = await db.Componentes.FindAsync(id);
 
-            if (component == null)
+            if (componente == null)
             {
                 return HttpNotFound();
             }
 
-            return View(component);
+            return View(componente);
         }
 
-        // POST: Components/Delete/5
+        // POST: Componentes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            var component = await db.Components.FindAsync(id);
-            db.Components.Remove(component);
+            var componente = await db.Componentes.FindAsync(id);
+            db.Componentes.Remove(componente);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }

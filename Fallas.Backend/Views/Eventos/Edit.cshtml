@@ -1,19 +1,23 @@
-﻿@model Fallas.Domain.Act
+﻿@model Fallas.Domain.Evento
 
 @{
-    ViewBag.Title = "Nuevo";
+    ViewBag.Title = "Editar";
 }
 
-<h2>Evento Nuevo</h2>
+<h2>Editar Eventos</h2>
 
 
-@using (Html.BeginForm("Create", "Acts", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Edit", "Eventos", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
 <div class="form-horizontal">
-    <hr />
+
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.IdEvento)
+    @Html.HiddenFor(model => model.Imagen)
+    @Html.HiddenFor(model => model.Imagen500)
+
     <div class="form-group">
         @Html.LabelFor(model => model.Titular, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
@@ -31,19 +35,19 @@
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.FechaActo, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.FechaEvento, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-4">
-            @Html.EditorFor(model => model.FechaActo,
-           new { htmlAttributes = new { @class = "form-control"} })
-            @Html.ValidationMessageFor(model => model.FechaActo, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.FechaEvento, 
+               new { htmlAttributes = new { @class = "form-control"} })
+            @Html.ValidationMessageFor(model => model.FechaEvento, "", new { @class = "text-danger" })
         </div>
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.HoraActo, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.HoraEvento, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.HoraActo, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.HoraActo, "", new { @class = "text-danger" })
+            @Html.EditorFor(model => model.HoraEvento, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.HoraEvento, "", new { @class = "text-danger" })
         </div>
     </div>
 
@@ -64,11 +68,11 @@
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.ActoOficial, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.EventoOficial, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             <div class="checkbox">
-                @Html.EditorFor(model => model.ActoOficial)
-                @Html.ValidationMessageFor(model => model.ActoOficial, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.EventoOficial)
+                @Html.ValidationMessageFor(model => model.EventoOficial, "", new { @class = "text-danger" })
             </div>
         </div>
     </div>
@@ -105,12 +109,8 @@
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
             @Html.ActionLink("Volver", "Index", new { }, new { @class = "btn btn-primary" }) |
-            <input type="submit" value="Crear" class="btn btn-success" />
+            <input type="submit" value="Salvar" class="btn btn-success" />
         </div>
     </div>
 </div>
 }
-
-@*@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}*@
