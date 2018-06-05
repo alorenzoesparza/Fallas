@@ -12,6 +12,7 @@ using Fallas.Domain;
 
 namespace Fallas.Backend.Controllers
 {
+    [Authorize(Roles = "Admin, Fallero")]
     public class EventosController : Controller
     {
         private LocalDataContext db = new LocalDataContext();
