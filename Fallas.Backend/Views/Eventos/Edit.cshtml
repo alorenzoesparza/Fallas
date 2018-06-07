@@ -81,7 +81,7 @@
         @Html.LabelFor(model => model.ImagenFile, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             <span class="btn btn-primary btn-file">
-                @Html.TextBoxFor(modelo => modelo.ImagenFile, new { type = "file" })
+                @Html.TextBoxFor(modelo => modelo.ImagenFile, new { type = "file", @accept = "image/png, image/gif, image/jpeg" })
             </span>
         </div>
     </div>

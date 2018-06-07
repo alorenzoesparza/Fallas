@@ -9,6 +9,8 @@ using System.Web;
 using System.Web.Mvc;
 using Fallas.Backend.Models;
 using Fallas.Domain;
+using Falla.Backend.Helpers;
+using System.IO;
 
 namespace Fallas.Backend.Controllers
 {
@@ -55,11 +57,14 @@ namespace Fallas.Backend.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Evento evento = await db.Eventos.FindAsync(id);
+
+            var evento = await db.Eventos.FindAsync(id);
+
             if (evento == null)
             {
                 return HttpNotFound();
             }
+
             return View(evento);
         }
 
@@ -74,10 +79,33 @@ namespace Fallas.Backend.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "IdEvento,Titular,Descripcion,FechaEvento,HoraEvento,Precio,PrecioInfantiles,EventoOficial,Imagen,Imagen500,PagInicio,YaEfectuado")] Evento evento)
+        public async Task<ActionResult> Create(Evento evento)
         {
             if (ModelState.IsValid)
             {
+                if (evento.ImagenFile != null)
+                {
+                    var folder = "~/Content/Eventos";
+                    var file = string.Format("Evento{0}", evento.IdEvento);
+                    var file500 = string.Format("Evento{0}_{1}", evento.IdEvento, "500");
+
+                    var respuesta = FilesHelper.UploadPhotoBackEnd(evento.ImagenFile, folder, file, 200, 200);
+                    var respuesta500 = FilesHelper.UploadPhotoBackEnd(evento.ImagenFile, folder, file500, 500, 500);
+
+                    var extension = Path.GetExtension(respuesta);
+                    if (respuesta != null)
+                    {
+                        var pic = string.Format("{0}/{1}{2}", folder, file, extension);
+                        var pic500 = string.Format("{0}/{1}{2}", folder, file500, extension);
+
+                        evento.Imagen = pic;
+                        evento.Imagen500 = pic500;
+
+                        //db.Entry(evento).State = EntityState.Modified;
+                        //db.SaveChanges();
+                    }
+                }
+
                 db.Eventos.Add(evento);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
@@ -93,11 +121,14 @@ namespace Fallas.Backend.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Evento evento = await db.Eventos.FindAsync(id);
+
+            var evento = await db.Eventos.FindAsync(id);
+
             if (evento == null)
             {
                 return HttpNotFound();
             }
+
             return View(evento);
         }
 
@@ -106,14 +137,35 @@ namespace Fallas.Backend.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "IdEvento,Titular,Descripcion,FechaEvento,HoraEvento,Precio,PrecioInfantiles,EventoOficial,Imagen,Imagen500,PagInicio,YaEfectuado")] Evento evento)
+        public async Task<ActionResult> Edit(Evento evento)
         {
             if (ModelState.IsValid)
             {
+                if (evento.ImagenFile != null)
+                {
+                    var folder = "~/Content/Eventos";
+                    var file = string.Format("Evento{0}", evento.IdEvento);
+                    var file500 = string.Format("Evento{0}_{1}", evento.IdEvento, "500");
+
+                    var respuesta = FilesHelper.UploadPhotoBackEnd(evento.ImagenFile, folder, file, 200, 200);
+                    var respuesta500 = FilesHelper.UploadPhotoBackEnd(evento.ImagenFile, folder, file500, 500, 500);
+
+                    var extension = Path.GetExtension(respuesta);
+                    if (respuesta != null)
+                    {
+                        var pic = string.Format("{0}/{1}{2}", folder, file, extension);
+                        var pic500 = string.Format("{0}/{1}{2}", folder, file500, extension);
+
+                        evento.Imagen = pic;
+                        evento.Imagen500 = pic500;
+                    }
+                }
+
                 db.Entry(evento).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
+
             return View(evento);
         }
 
@@ -124,11 +176,14 @@ namespace Fallas.Backend.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Evento evento = await db.Eventos.FindAsync(id);
+
+            var evento = await db.Eventos.FindAsync(id);
+
             if (evento == null)
             {
                 return HttpNotFound();
             }
+
             return View(evento);
         }
 
@@ -137,7 +192,8 @@ namespace Fallas.Backend.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Evento evento = await db.Eventos.FindAsync(id);
+            var evento = await db.Eventos.FindAsync(id);
+
             db.Eventos.Remove(evento);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");

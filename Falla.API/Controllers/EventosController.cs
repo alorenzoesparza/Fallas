@@ -11,45 +11,45 @@ using System.Web.Http.Description;
 namespace Falla.API.Controllers
 {
     [Authorize(Roles = "Admin, Fallero")]
-    public class ActsController : ApiController
+    public class EventosController : ApiController
     {
         private LocalDataContext db = new LocalDataContext();
 
-        // GET: api/Acts
-        public IQueryable<Act> GetActs()
+        // GET: api/Eventos
+        public IQueryable<Evento> GetEventos()
         {
-            return db.Acts;
+            return db.Eventos;
         }
 
-        // GET: api/Acts/5
-        [ResponseType(typeof(Act))]
-        public async Task<IHttpActionResult> GetAct(int id)
+        // GET: api/Eventos/5
+        [ResponseType(typeof(Evento))]
+        public async Task<IHttpActionResult> GetEvento(int id)
         {
-            var act = await db.Acts.FindAsync(id);
+            var evento = await db.Eventos.FindAsync(id);
 
-            if (act == null)
+            if (evento == null)
             {
                 return NotFound();
             }
 
-            return Ok(act);
+            return Ok(evento);
         }
 
-        // PUT: api/Acts/5
+        // PUT: api/Eventos/5
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutAct(int id, Act act)
+        public async Task<IHttpActionResult> PutEvento(int id, Evento evento)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != act.IdAct)
+            if (id != evento.IdEvento)
             {
                 return BadRequest();
             }
 
-            db.Entry(act).State = EntityState.Modified;
+            db.Entry(evento).State = EntityState.Modified;
 
             try
             {
@@ -57,7 +57,7 @@ namespace Falla.API.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ActExists(id))
+                if (!EventoExists(id))
                 {
                     return NotFound();
                 }
@@ -70,36 +70,35 @@ namespace Falla.API.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Acts
-        [ResponseType(typeof(Act))]
-        public async Task<IHttpActionResult> PostAct(Act act)
+        // POST: api/Eventos
+        [ResponseType(typeof(Evento))]
+        public async Task<IHttpActionResult> PostEvento(Evento evento)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Acts.Add(act);
+            db.Eventos.Add(evento);
             await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = act.IdAct }, act);
+            return CreatedAtRoute("DefaultApi", new { id = evento.IdEvento }, evento);
         }
 
-        // DELETE: api/Acts/5
-        [ResponseType(typeof(Act))]
-        public async Task<IHttpActionResult> DeleteAct(int id)
+        // DELETE: api/Eventos/5
+        [ResponseType(typeof(Evento))]
+        public async Task<IHttpActionResult> DeleteEvento(int id)
         {
-            var act = await db.Acts.FindAsync(id);
-
-            if (act == null)
+            var evento = await db.Eventos.FindAsync(id);
+            if (evento == null)
             {
                 return NotFound();
             }
 
-            db.Acts.Remove(act);
+            db.Eventos.Remove(evento);
             await db.SaveChangesAsync();
 
-            return Ok(act);
+            return Ok(evento);
         }
 
         protected override void Dispose(bool disposing)
@@ -111,9 +110,9 @@ namespace Falla.API.Controllers
             base.Dispose(disposing);
         }
 
-        private bool ActExists(int id)
+        private bool EventoExists(int id)
         {
-            return db.Acts.Count(e => e.IdAct == id) > 0;
+            return db.Eventos.Count(e => e.IdEvento == id) > 0;
         }
     }
 }

@@ -35,7 +35,7 @@ namespace Falla.Backend.Helpers
                     directory = Path.Combine(HttpContext.Current.Server.MapPath(folder));
                     path = Path.Combine(HttpContext.Current.Server.MapPath(folder), pic);
 
-                    var existDirectory = Existirectory(directory);
+                    var existDirectory = ExistDirectory(directory);
 
                     if (!existDirectory)
                     {
@@ -178,7 +178,7 @@ namespace Falla.Backend.Helpers
             return null;
         }
 
-        public static bool Existirectory(string path)
+        public static bool ExistDirectory(string path)
         {
             try
             {
