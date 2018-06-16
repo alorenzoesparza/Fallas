@@ -1,6 +1,7 @@
 ﻿using Falla.Backend.Helpers;
 using Fallas.Backend.Models;
 using Fallas.Domain;
+using System;
 using System.Data.Entity;
 using System.IO;
 using System.Net;
@@ -79,11 +80,12 @@ namespace Fallas.Backend.Controllers
                 if (view.FotoFile != null)
                 {
                     var folder = "~/Content/Componentes";
-                    var file = string.Format("Componente{0}", componente.ComponenteId);
-                    var file500 = string.Format("Componente{0}_{1}", componente.ComponenteId, "500");
+                    var file = string.Format("C{0}_{1}", componente.ComponenteId, DateTime.Now.ToString("ddMMyyyyHHmmss"));
 
-                    var respuesta = FilesHelper.UploadPhotoBackEnd(view.FotoFile, folder, file, 200, 200);
-                    var respuesta500 = FilesHelper.UploadPhotoBackEnd(view.FotoFile, folder, file500, 500, 500);
+                    var file500 = string.Format("C{0}_{1}_{2}", componente.ComponenteId, "500", DateTime.Now.ToString("ddMMyyyyHHmmss"));
+
+                    var respuesta = FilesHelper.UploadPhotoBackEnd(componente.FotoFile, folder, file, componente.Foto, 200, 200);
+                    var respuesta500 = FilesHelper.UploadPhotoBackEnd(componente.FotoFile, folder, file500, componente.Foto500, 500, 500);
 
                     var extension = Path.GetExtension(respuesta);
                     if (respuesta != null)
@@ -149,11 +151,12 @@ namespace Fallas.Backend.Controllers
                 if (componente.FotoFile != null)
                 {
                     var folder = "~/Content/Componentes";
-                    var file = string.Format("Componente{0}", componente.ComponenteId);
-                    var file500 = string.Format("Componente{0}_{1}", componente.ComponenteId, "500");
+                    var file = string.Format("C{0}_{1}", componente.ComponenteId,DateTime.Now.ToString("ddMMyyyyHHmmss"));
 
-                    var respuesta = FilesHelper.UploadPhotoBackEnd(componente.FotoFile, folder, file, 200, 200);
-                    var respuesta500 = FilesHelper.UploadPhotoBackEnd(componente.FotoFile, folder, file500, 500, 500);
+                    var file500 = string.Format("C{0}_{1}_{2}", componente.ComponenteId, "500", DateTime.Now.ToString("ddMMyyyyHHmmss"));
+
+                    var respuesta = FilesHelper.UploadPhotoBackEnd(componente.FotoFile, folder, file, componente.Foto, 200, 200);
+                    var respuesta500 = FilesHelper.UploadPhotoBackEnd(componente.FotoFile, folder, file500, componente.Foto500, 500, 500);
 
                     var extension = Path.GetExtension(respuesta);
                     if (respuesta != null)

@@ -1,5 +1,4 @@
 ﻿using Falla.API.Models;
-using Fallas.Domain;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;

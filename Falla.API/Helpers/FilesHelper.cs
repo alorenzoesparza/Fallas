@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
@@ -8,7 +9,7 @@ using System.Net;
 using System.Web;
 using System.Web.Configuration;
 
-namespace Falla.Backend.Helpers
+namespace Falla.API.Helpers
 {
     public class FilesHelper
     {
@@ -69,7 +70,7 @@ namespace Falla.Backend.Helpers
                     {
                         return null;
                     }
-                    
+
                     if (anterior != null)
                     {
                         // Borrar Archivo de imagen anterior

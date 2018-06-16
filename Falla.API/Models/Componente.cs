@@ -1,10 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 using System.Web;
 
-namespace Fallas.Domain
+namespace Falla.API.Models
 {
-    [Table(name:"Componentes")]
+    [Table(name: "Componentes")]
     public class Componente
     {
         [Key]
@@ -49,31 +52,32 @@ namespace Fallas.Domain
         [NotMapped]
         public string Password { get; set; }
 
-        //[NotMapped]
-        //[Display(Name = "Foto")]
-        //public string FotoFullPath
-        //{
-        //    get
-        //    {
-        //        if (string.IsNullOrEmpty(Foto))
-        //        {
-        //            return "No hay Foto";
-        //        }
-
-        //        return string.Format(
-        //            "http://antoniole.com{0}",
-        //            Foto.Substring(1));
-        //    }
-        //}
-
         [NotMapped]
-        [Display(Name = "Nombre")]
-        public string NombreCompleto
+        [Display(Name = "Foto")]
+        public string FotoFullPath
         {
             get
             {
-                return string.Format("{0}, {1}", Apellidos, Nombre);
+                if (string.IsNullOrEmpty(Foto))
+                {
+                    return "No hay Foto";
+                }
+
+                return string.Format(
+                    "http://api.antoniole.com/{0}",
+                    Foto.Substring(1));
             }
         }
+
+        //    [NotMapped]
+        //    [Display(Name = "Nombre")]
+        //    public string NombreCompleto
+        //    {
+        //        get
+        //        {
+        //            return string.Format("{0}, {1}", Apellidos, Nombre);
+        //        }
+        //    }
+        //}
     }
 }

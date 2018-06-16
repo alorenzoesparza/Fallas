@@ -89,8 +89,8 @@ namespace Fallas.Backend.Controllers
                     var file = string.Format("Evento{0}", evento.IdEvento);
                     var file500 = string.Format("Evento{0}_{1}", evento.IdEvento, "500");
 
-                    var respuesta = FilesHelper.UploadPhotoBackEnd(evento.ImagenFile, folder, file, 200, 200);
-                    var respuesta500 = FilesHelper.UploadPhotoBackEnd(evento.ImagenFile, folder, file500, 500, 500);
+                    var respuesta = FilesHelper.UploadPhotoBackEnd(evento.ImagenFile, folder, file, evento.Imagen, 200, 200);
+                    var respuesta500 = FilesHelper.UploadPhotoBackEnd(evento.ImagenFile, folder, file500, evento.Imagen500, 500, 500);
 
                     var extension = Path.GetExtension(respuesta);
                     if (respuesta != null)
@@ -147,8 +147,8 @@ namespace Fallas.Backend.Controllers
                     var file = string.Format("Evento{0}", evento.IdEvento);
                     var file500 = string.Format("Evento{0}_{1}", evento.IdEvento, "500");
 
-                    var respuesta = FilesHelper.UploadPhotoBackEnd(evento.ImagenFile, folder, file, 200, 200);
-                    var respuesta500 = FilesHelper.UploadPhotoBackEnd(evento.ImagenFile, folder, file500, 500, 500);
+                    var respuesta = FilesHelper.UploadPhotoBackEnd(evento.ImagenFile, folder, file, evento.Imagen, 200, 200);
+                    var respuesta500 = FilesHelper.UploadPhotoBackEnd(evento.ImagenFile, folder, file500, evento.Imagen500, 500, 500);
 
                     var extension = Path.GetExtension(respuesta);
                     if (respuesta != null)
