@@ -84,8 +84,8 @@ namespace Fallas.Backend.Controllers
 
                     var file500 = string.Format("C{0}_{1}_{2}", componente.ComponenteId, "500", DateTime.Now.ToString("ddMMyyyyHHmmss"));
 
-                    var respuesta = FilesHelper.UploadPhotoBackEnd(componente.FotoFile, folder, file, componente.Foto, 200, 200);
-                    var respuesta500 = FilesHelper.UploadPhotoBackEnd(componente.FotoFile, folder, file500, componente.Foto500, 500, 500);
+                    var respuesta = FilesHelper.UploadPhotoBackEnd(view.FotoFile, folder, file, componente.Foto, 200, 200);
+                    var respuesta500 = FilesHelper.UploadPhotoBackEnd(view.FotoFile, folder, file500, componente.Foto500, 500, 500);
 
                     var extension = Path.GetExtension(respuesta);
                     if (respuesta != null)

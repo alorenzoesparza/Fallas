@@ -49,22 +49,22 @@ namespace Fallas.Domain
         [NotMapped]
         public string Password { get; set; }
 
-        //[NotMapped]
-        //[Display(Name = "Foto")]
-        //public string FotoFullPath
-        //{
-        //    get
-        //    {
-        //        if (string.IsNullOrEmpty(Foto))
-        //        {
-        //            return "No hay Foto";
-        //        }
+        [NotMapped]
+        [Display(Name = "Foto")]
+        public string FotoFullPath
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(Foto))
+                {
+                    return "No hay Foto";
+                }
 
-        //        return string.Format(
-        //            "http://antoniole.com{0}",
-        //            Foto.Substring(1));
-        //    }
-        //}
+                return string.Format(
+                    "http://antoniole.com/{0}",
+                    Foto.Substring(1));
+            }
+        }
 
         [NotMapped]
         [Display(Name = "Nombre")]

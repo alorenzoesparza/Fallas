@@ -42,9 +42,9 @@ namespace Falla.API.Models
         [DataType(DataType.ImageUrl)]
         public string Foto500 { get; set; }
 
-        [NotMapped]
-        [Display(Name = "Imagen")]
-        public HttpPostedFileBase FotoFile { get; set; }
+        //[NotMapped]
+        //[Display(Name = "Imagen")]
+        //public HttpPostedFileBase FotoFile { get; set; }
 
         [NotMapped]
         public byte[] ImageArray { get; set; }
@@ -64,20 +64,20 @@ namespace Falla.API.Models
                 }
 
                 return string.Format(
-                    "http://api.antoniole.com/{0}",
+                    "http://antoniole.com/{0}",
                     Foto.Substring(1));
             }
         }
 
-        //    [NotMapped]
-        //    [Display(Name = "Nombre")]
-        //    public string NombreCompleto
-        //    {
-        //        get
-        //        {
-        //            return string.Format("{0}, {1}", Apellidos, Nombre);
-        //        }
-        //    }
-        //}
+        [NotMapped]
+        [Display(Name = "Nombre")]
+        public string NombreCompleto
+        {
+            get
+            {
+                return string.Format("{0}, {1}", Apellidos, Nombre);
+            }
+        }
     }
 }
+

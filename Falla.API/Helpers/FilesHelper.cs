@@ -276,39 +276,14 @@ namespace Falla.API.Helpers
             MemoryStream stream,
             string folder,
             string name,
-            string anterior)
+            string anterior,
+            int iWidth,
+            int iHeight)
 
         {
             try
             {
                 stream.Position = 0;
-                //var directory = Path.Combine(HttpContext.Current.Server.MapPath(folder));
-
-                //string[] Separado = directory.Split('\\');
-                //string Final = Separado[Separado.Length - 1];
-
-                //var host = HttpContext.Current.Request.Url.Host;
-                //var folderPrincipal = string.Empty;
-
-                //if (host == "localhost")
-                //{
-                //    folderPrincipal = WebConfigurationManager.AppSettings["LocalFolderPrincipal"];
-                //}
-                //else
-                //{
-                //    folderPrincipal = WebConfigurationManager.AppSettings["FolderPrincipal"];
-                //}
-
-
-                //Separado[Separado.Length - 3] = folderPrincipal;
-
-                //var directorio = string.Empty;
-                //for (int i = 0; i < Separado.Length; i++)
-                //{
-                //    directorio = directorio + "/" + Separado[i];
-                //}
-
-                //directory = Path.Combine(directorio);
 
                 var directory = Path.Combine(HttpContext.Current.Server.MapPath(folder));
 
@@ -358,10 +333,54 @@ namespace Falla.API.Helpers
                     }
                 }
 
-                //var path = Path.Combine(HttpContext.Current.Server.MapPath(directorio), name);
                 var path = Path.Combine(directorio, name);
 
-                File.WriteAllBytes(path, stream.ToArray());
+                //File.WriteAllBytes(path, stream.ToArray());
+                // Cargo la imágen
+                Bitmap imgToResize = new Bitmap(stream);
+
+                Size size = new Size(iWidth, iHeight);
+
+                int sourceWidth = imgToResize.Width;
+                int sourceHeight = imgToResize.Height;
+
+                float nPercent = 0;
+                float nPercentW = 0;
+                float nPercentH = 0;
+
+                nPercentW = ((float)size.Width / (float)sourceWidth);
+                nPercentH = ((float)size.Height / (float)sourceHeight);
+
+                if (nPercentH < nPercentW)
+                    nPercent = nPercentH;
+                else
+                    nPercent = nPercentW;
+
+                int destWidth = (int)(sourceWidth * nPercent);
+                int destHeight = (int)(sourceHeight * nPercent);
+
+                Bitmap b = new Bitmap(destWidth, destHeight);
+                Graphics g = Graphics.FromImage((Image)b);
+                g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+
+                g.DrawImage(imgToResize, 0, 0, destWidth, destHeight);
+                g.Dispose();
+
+                // We will store the correct image codec in this object
+                ImageCodecInfo ici = GetEncoderInfo("image/jpeg");
+                // This will specify the image quality to the encoder
+                EncoderParameter epQuality = new EncoderParameter(Encoder.Quality, 99L);
+                // Store the quality parameter in the list of encoder parameters
+                EncoderParameters eps = new EncoderParameters(1);
+                eps.Param[0] = epQuality;
+                //strImgOutputPath = string.Format("{0}{1}", strImgOutputPath, extension);
+                b.Save(path, ici, eps);
+
+                imgToResize.Dispose();
+                //stream.Close();
+                //stream.Dispose();
+                b.Dispose();
+                g.Dispose();
             }
             catch
             {

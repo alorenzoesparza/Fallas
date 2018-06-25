@@ -1,5 +1,6 @@
 ﻿using Falla.API.Helpers;
 using Falla.API.Models;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Data;
 using System.Data.Entity;
@@ -14,6 +15,7 @@ using System.Web.Http.Description;
 
 namespace Falla.API.Controllers
 {
+    [RoutePrefix("api/Componentes")]
     public class ComponentesController : ApiController
     {
         private LocalDataContext db = new LocalDataContext();
@@ -24,11 +26,27 @@ namespace Falla.API.Controllers
             return db.Componentes;
         }
 
-        // GET: api/Componentes/5
-        [ResponseType(typeof(Componente))]
-        public async Task<IHttpActionResult> GetComponente(int id)
+        [Authorize]
+        [HttpPost]
+        [Route("GetComponentePorEmail")]
+        public async Task<IHttpActionResult> GetComponentePorEmail(JObject form)
         {
-            var componente = await db.Componentes.FindAsync(id);
+            var email = string.Empty;
+            dynamic jsonObject = form;
+
+            try
+            {
+                email = jsonObject.Email.Value;
+            }
+            catch 
+            {
+
+                return BadRequest("Acceso a GetComponentePorEmail incorrecto.");
+            }
+
+            var componente = await db.Componentes.
+                Where(c => c.Email.ToLower() == email.ToLower()).
+                FirstOrDefaultAsync();
 
             if (componente == null)
             {
@@ -39,18 +57,26 @@ namespace Falla.API.Controllers
         }
 
         // PUT: api/Componentes/5
-        [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutComponente(int id, Componente componente)
+        [Authorize]
+        [HttpPost]
+        [ResponseType(typeof(Componente))]
+        [Route("ModificarComponente")]
+        public async Task<IHttpActionResult> ModificarComponente(Componente componente)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            //var email = string.Empty;
+            //dynamic jsonObject = form;
 
-            if (id != componente.ComponenteId)
-            {
-                return BadRequest();
-            }
+            //try
+            //{
+            //    //var componente = jsonObject.Email.Value;
+            //}
+            //catch
+            //{
+
+            //    return BadRequest("Acceso a ModificarComponente incorrecto.");
+            //}
+
+            //var componente = jsonObject.Email.Value;
 
             if (componente.ImageArray != null && componente.ImageArray.Length > 0)
             {
@@ -58,10 +84,11 @@ namespace Falla.API.Controllers
                 var componenteFoto = WebConfigurationManager.AppSettings["RutaFotos"];
                 var stream = new MemoryStream(componente.ImageArray);
                 var folder = "~/Content/Componentes";
-                var file = string.Format("Componente{0}_{1}.jpg", componente.ComponenteId, DateTime.Now.ToString("ddMMyyyyHHmmss"));
-                var file500 = string.Format("Componente{0}_{1}_{2}.jpg", componente.ComponenteId, "500", DateTime.Now.ToString("ddMMyyyyHHmmss"));
+                var file = string.Format("C{0}_{1}.jpg", componente.ComponenteId, DateTime.Now.ToString("ddMMyyyyHHmmss"));
+                var file500 = string.Format("C{0}_{1}_{2}.jpg", componente.ComponenteId, "500", DateTime.Now.ToString("ddMMyyyyHHmmss"));
 
-                var respuesta = FilesHelper.UploadPhotoStream(stream, folder, file, componente.Foto);
+                var respuesta = FilesHelper.UploadPhotoStream(stream, folder, file, componente.Foto, 200, 200);
+                var respuesta500 = FilesHelper.UploadPhotoStream(stream, folder, file500, componente.Foto, 500, 500);
 
                 if (respuesta)
                 {
@@ -84,7 +111,7 @@ namespace Falla.API.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ComponenteExists(id))
+                if (!ComponenteExists(componente.ComponenteId))
                 {
                     return NotFound();
                 }
@@ -94,7 +121,7 @@ namespace Falla.API.Controllers
                 }
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            return Ok(componente);
         }
 
         // POST: api/Componentes
@@ -119,10 +146,12 @@ namespace Falla.API.Controllers
 
                 var stream = new MemoryStream(componente.ImageArray);
                 var folder = "~/Content/Componentes";
-                var file = string.Format("Componente{0}_{1}.jpg", componente.ComponenteId, DateTime.Now.ToString("ddMMyyyyHHmmss"));
-                var file500 = string.Format("Componente{0}_{1}_{2}.jpg", componente.ComponenteId, "500", DateTime.Now.ToString("ddMMyyyyHHmmss"));
+                var file = string.Format("C{0}_{1}.jpg", componente.ComponenteId, DateTime.Now.ToString("ddMMyyyyHHmmss"));
+                var file500 = string.Format("C{0}_{1}_{2}.jpg", componente.ComponenteId, "500", DateTime.Now.ToString("ddMMyyyyHHmmss"));
 
-                var respuesta = FilesHelper.UploadPhotoStream(stream, folder, file, null);
+                //var respuesta = FilesHelper.UploadPhotoStream(stream, folder, file, null);
+                var respuesta = FilesHelper.UploadPhotoStream(stream, folder, file, null, 200, 200);
+                var respuesta500 = FilesHelper.UploadPhotoStream(stream, folder, file500, null, 500, 500);
 
                 if (respuesta)
                 {
@@ -141,6 +170,7 @@ namespace Falla.API.Controllers
         }
 
         // DELETE: api/Componentes/5
+        [Authorize]
         [ResponseType(typeof(Componente))]
         public async Task<IHttpActionResult> DeleteComponente(int id)
         {
