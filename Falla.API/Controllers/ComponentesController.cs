@@ -1,5 +1,7 @@
 ﻿using Falla.API.Helpers;
 using Falla.API.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Data;
@@ -124,6 +126,44 @@ namespace Falla.API.Controllers
             return Ok(componente);
         }
 
+        [HttpPost]
+        [Route("CambiarPassword")]
+        public async Task<IHttpActionResult> CambiarPassword(JObject form)
+        {
+            var email = string.Empty;
+            var actualPassword = string.Empty;
+            var nuevoPassword = string.Empty;
+            dynamic jsonObject = form;
+
+            try
+            {
+                email = jsonObject.Email.Value;
+                actualPassword = jsonObject.ActualPassword.Value;
+                nuevoPassword = jsonObject.NuevoPassword.Value;
+            }
+            catch
+            {
+                return BadRequest("Incorrect call");
+            }
+
+            var userContext = new ApplicationDbContext();
+            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(userContext));
+            var userASP = userManager.FindByEmail(email);
+
+            if (userASP == null)
+            {
+                return BadRequest("Incorrect call");
+            }
+
+            var response = await userManager.ChangePasswordAsync(userASP.Id, actualPassword, nuevoPassword);
+            if (!response.Succeeded)
+            {
+                return BadRequest(response.Errors.FirstOrDefault());
+            }
+
+            return Ok("ok");
+        }
+
         // POST: api/Componentes
         [ResponseType(typeof(Componente))]
         public async Task<IHttpActionResult> PostComponente(Componente componente)
@@ -167,6 +207,53 @@ namespace Falla.API.Controllers
             }
 
             return CreatedAtRoute("DefaultApi", new { id = componente.ComponenteId }, componente);
+        }
+
+        // PUT: api/Componentes/5
+        [Authorize]
+        [ResponseType(typeof(void))]
+        public async Task<IHttpActionResult> PutComponente(int id, Componente componente)
+        {
+            if (componente.ImageArray != null && componente.ImageArray.Length > 0)
+            {
+
+                var componenteEmail = await db.Componentes.Where(
+                    c => c.Email == componente.Email)
+                    .FirstOrDefaultAsync();
+
+                var stream = new MemoryStream(componente.ImageArray);
+                var folder = "~/Content/Componentes";
+                var file = string.Format("C{0}_{1}.jpg", componente.ComponenteId, DateTime.Now.ToString("ddMMyyyyHHmmss"));
+                var file500 = string.Format("C{0}_{1}_{2}.jpg", componente.ComponenteId, "500", DateTime.Now.ToString("ddMMyyyyHHmmss"));
+
+                //var respuesta = FilesHelper.UploadPhotoStream(stream, folder, file, null);
+                var respuesta = FilesHelper.UploadPhotoStream(stream, folder, file, null, 200, 200);
+                var respuesta500 = FilesHelper.UploadPhotoStream(stream, folder, file500, null, 500, 500);
+
+                if (respuesta)
+                {
+                    var pic = string.Format("{0}/{1}", folder, file);
+                    var pic500 = string.Format("{0}/{1}", folder, file500);
+
+                    componente.Foto = pic;
+                    componente.Foto500 = pic;
+
+                    //db.Entry(componente).State = EntityState.Modified;
+                    //await db.SaveChangesAsync();
+                }
+            }
+
+            db.Entry(componente).State = EntityState.Modified;
+
+            try
+            {
+                await db.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                throw;
+            }
+            return Ok(componente);
         }
 
         // DELETE: api/Componentes/5
