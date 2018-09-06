@@ -27,7 +27,7 @@ namespace Falla.API.Models
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         [Display(Name = "Fecha del evento")]
-        public DateTime? FechaEvento { get; set; }
+        public DateTime FechaEvento { get; set; }
 
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
         [DataType(DataType.Time)]
@@ -63,10 +63,9 @@ namespace Falla.API.Models
         [Display(Name = "Ya efectuado")]
         public bool YaEfectuado { get; set; }
 
-        //[JsonIgnore]
-        //public virtual ICollection<ActAssistance> ActAssistances { get; set; }
+        [NotMapped]
+        public bool Apuntado { get; set; }
 
-        //[JsonIgnore]
-        //public ICollection<ActSupporter> ActSupporters { get; set; }
+        //public List<AsistenciaEvento> AsistenciaEvento { get; set; }
     }
 }

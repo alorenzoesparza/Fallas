@@ -32,6 +32,9 @@ namespace Fallas.Domain
         [DataType(DataType.PhoneNumber)]
         public string Telefono { get; set; }
 
+        [Display(Name = "¿ Es Infantil ?")]
+        public bool EsInfantil { get; set; }
+
         [Display(Name = "Foto")]
         [DataType(DataType.ImageUrl)]
         public string Foto { get; set; }

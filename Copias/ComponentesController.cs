@@ -17,7 +17,7 @@ using System.Web.Http.Description;
 
 namespace Falla.API.Controllers
 {
-    [RoutePrefix("api/Componentes")]
+    //[RoutePrefix("api/Componentes")]
     public class ComponentesController : ApiController
     {
         private LocalDataContext db = new LocalDataContext();
@@ -53,6 +53,56 @@ namespace Falla.API.Controllers
             if (componente == null)
             {
                 return NotFound();
+            }
+
+            return Ok(componente);
+        }
+
+        // PUT: api/Componentes/5
+        [Authorize]
+        [HttpPost]
+        [ResponseType(typeof(Componente))]
+        [Route("ModificarComponente")]
+        public async Task<IHttpActionResult> ModificarComponente(Componente componente)
+        {
+            if (componente.ImageArray != null && componente.ImageArray.Length > 0)
+            {
+
+                var componenteFoto = WebConfigurationManager.AppSettings["RutaFotos"];
+                var stream = new MemoryStream(componente.ImageArray);
+                var folder = "~/Content/Componentes";
+                var file = string.Format("C{0}_{1}.jpg", componente.ComponenteId, DateTime.Now.ToString("ddMMyyyyHHmmss"));
+                var file500 = string.Format("C{0}_{1}_{2}.jpg", componente.ComponenteId, "500", DateTime.Now.ToString("ddMMyyyyHHmmss"));
+
+                var respuesta = FilesHelper.UploadPhotoStream(stream, folder, file, componente.Foto, 200, 200);
+                var respuesta500 = FilesHelper.UploadPhotoStream(stream, folder, file500, componente.Foto, 500, 500);
+
+                if (respuesta)
+                {
+                    var pic = string.Format("{0}/{1}", folder, file);
+                    var pic500 = string.Format("{0}/{1}", folder, file500);
+
+                    componente.Foto = pic;
+                    componente.Foto500 = pic;
+                }
+            }
+
+            db.Entry(componente).State = EntityState.Modified;
+
+            try
+            {
+                await db.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!ComponenteExists(componente.ComponenteId))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
             }
 
             return Ok(componente);
@@ -149,14 +199,18 @@ namespace Falla.API.Controllers
             if (componente.ImageArray != null && componente.ImageArray.Length > 0)
             {
 
-                var componenteFoto = WebConfigurationManager.AppSettings["RutaFotos"];
+                var componenteEmail = await db.Componentes.Where(
+                    c => c.Email == componente.Email)
+                    .FirstOrDefaultAsync();
+
                 var stream = new MemoryStream(componente.ImageArray);
                 var folder = "~/Content/Componentes";
                 var file = string.Format("C{0}_{1}.jpg", componente.ComponenteId, DateTime.Now.ToString("ddMMyyyyHHmmss"));
                 var file500 = string.Format("C{0}_{1}_{2}.jpg", componente.ComponenteId, "500", DateTime.Now.ToString("ddMMyyyyHHmmss"));
 
-                var respuesta = FilesHelper.UploadPhotoStream(stream, folder, file, componente.Foto, 200, 200);
-                var respuesta500 = FilesHelper.UploadPhotoStream(stream, folder, file500, componente.Foto, 500, 500);
+                //var respuesta = FilesHelper.UploadPhotoStream(stream, folder, file, null);
+                var respuesta = FilesHelper.UploadPhotoStream(stream, folder, file, null, 200, 200);
+                var respuesta500 = FilesHelper.UploadPhotoStream(stream, folder, file500, null, 500, 500);
 
                 if (respuesta)
                 {
@@ -165,6 +219,9 @@ namespace Falla.API.Controllers
 
                     componente.Foto = pic;
                     componente.Foto500 = pic;
+
+                    //db.Entry(componente).State = EntityState.Modified;
+                    //await db.SaveChangesAsync();
                 }
             }
 
@@ -176,20 +233,13 @@ namespace Falla.API.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ComponenteExists(componente.ComponenteId))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
-
             return Ok(componente);
         }
 
         // DELETE: api/Componentes/5
+        [HttpDelete]
         [Authorize]
         [ResponseType(typeof(Componente))]
         public async Task<IHttpActionResult> DeleteComponente(int id)

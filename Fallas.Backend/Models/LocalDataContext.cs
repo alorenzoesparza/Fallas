@@ -10,6 +10,8 @@ namespace Fallas.Backend.Models
 
         public DbSet<Componente> Componentes { get; set; }
 
+        public DbSet<AsistenciaEvento> AsistenciaEventos { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();

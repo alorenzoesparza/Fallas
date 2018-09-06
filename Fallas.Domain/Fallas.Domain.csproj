@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AsistenciaEvento.cs" />
     <Compile Include="Componente.cs" />
     <Compile Include="DataContext.cs" />
     <Compile Include="Evento.cs" />

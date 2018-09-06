@@ -1,4 +1,6 @@
 ﻿using Falla.API.Models;
+using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
@@ -14,24 +16,51 @@ namespace Falla.API.Controllers
     {
         private LocalDataContext db = new LocalDataContext();
 
+        //[Authorize]
         // GET: api/Eventos
-        public IQueryable<Evento> GetEventos()
-        {
-            return db.Eventos;
-        }
-
-        // GET: api/Eventos/5
-        [ResponseType(typeof(Evento))]
         public async Task<IHttpActionResult> GetEvento(int id)
         {
-            var evento = await db.Eventos.FindAsync(id);
 
-            if (evento == null)
+            var componente = await db.Componentes.FindAsync(id);
+
+            var componenteId = componente.ComponenteId;
+
+            var eventos = await db.Eventos.ToListAsync();
+            var eventosApi = new List<EventosApi>();
+
+            foreach (var evento in eventos)
             {
-                return NotFound();
+                var apuntado = false;
+                var asistencia = 0;
+                var asistenciaEvento = await db.AsistenciaEventos
+                    .Where(ae => ae.IdEvento == evento.IdEvento && ae.ComponenteId == componenteId)
+                    .FirstOrDefaultAsync();
+                if (asistenciaEvento != null)
+                {
+                    apuntado = true;
+                    asistencia = asistenciaEvento.AsistenciaEventoId;
+                }
+
+                eventosApi.Add(new EventosApi
+                {
+                    Apuntado = apuntado,
+                    Descripcion = evento.Descripcion,
+                    EventoOficial = evento.EventoOficial,
+                    FechaEvento = evento.FechaEvento,
+                    HoraEvento = evento.HoraEvento,
+                    AsistenciaEventoId = asistencia,
+                    IdEvento = evento.IdEvento,
+                    Imagen = evento.Imagen,
+                    Imagen500 = evento.Imagen500,
+                    PagInicio = evento.PagInicio,
+                    Precio = evento.Precio,
+                    PrecioInfantiles = evento.PrecioInfantiles,
+                    Titular = evento.Titular,
+                    YaEfectuado = evento.YaEfectuado
+                });
             }
 
-            return Ok(evento);
+            return Ok(eventosApi);
         }
 
         // PUT: api/Eventos/5
